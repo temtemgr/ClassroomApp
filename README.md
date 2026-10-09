@@ -1,22 +1,22 @@
 # ClassroomApp
 
-Use following format for the .txt file used with the App:
+Use following format for the .txt files with the App:
 
 ## grades.txt
-B-LS-MI 007
-Programmieren II
-Joe Cool, mt, 4.5, 3, 5.2, 4
-Jane Smart, mi, 4.7, 5, 5, 4.5, 5.2, 5
-Sam Simpson, mi, 3, 4.5, 4.6, 4.3, 4
-Anna Calvi, mt, 5.1, 4.9, 4.8, 5, 5, 5
-John Cale, mi, 4.6, 6, 3.9, 4.2, 4.9, 5
-Joost Swarte, pt, 3, 3.5, 3.6, 4, 3.1
+B-LS-MI 007 \
+Programmieren II \
+Joe Cool, mt, 4.5, 3, 5.2, 4 \
+Jane Smart, mi, 4.7, 5, 5, 4.5, 5.2, 5 \
+Sam Simpson, mi, 3, 4.5, 4.6, 4.3, 4 \
+Anna Calvi, mt, 5.1, 4.9, 4.8, 5, 5, 5 \
+John Cale, mi, 4.6, 6, 3.9, 4.2, 4.9, 5 \
+Joost Swarte, pt, 3, 3.5, 3.6, 4, 3.1 
 
 ## major-map.txt
-bz	Bioanalytics
-ch	Chemistry
-cb	Chemistry and Process Technology
-mi	Medical Informatics
-mt	Medical Engineering
-pt	Pharma Technology
-ut	Ecopreneurship
+bz	Bioanalytics \
+ch	Chemistry \
+cb	Chemistry and Process Technology \
+mi	Medical Informatics \
+mt	Medical Engineering \
+pt	Pharma Technology \
+ut	Ecopreneurship 
