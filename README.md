@@ -5,12 +5,14 @@ Use following format for the .txt files with the App:
 ## grades.txt
 B-LS-MI 007 \
 Programmieren II \
-Joe Cool, mt, 4.5, 3, 5.2, 4 \
-Jane Smart, mi, 4.7, 5, 5, 4.5, 5.2, 5 \
-Sam Simpson, mi, 3, 4.5, 4.6, 4.3, 4 \
-Anna Calvi, mt, 5.1, 4.9, 4.8, 5, 5, 5 \
-John Cale, mi, 4.6, 6, 3.9, 4.2, 4.9, 5 \
-Joost Swarte, pt, 3, 3.5, 3.6, 4, 3.1 
+Joe Cool,mt,,5,4.5,3,5.2,4 \
+Jane Smart,mi,,3.5,4.7,5,5,4.5,5.2,5 \
+Sam Simpson,mi,,4.1,3,4.5,4.6,4.3,4 \
+Bethany Hamilton, mt, r, 5.5 \
+Anna Calvi,mt,,5.5,5.1,4.9,4.8,5,5,5 \
+John Cale,mi,,3.8,4.6,6,3.9,4.2,4.9,5 \
+Joost Swarte,pt,,4.9,3,3.5,3.6,4,3.1 \
+Hans Müller,mi,r,4.5
 
 ## major-map.txt
 bz	Bioanalytics \
