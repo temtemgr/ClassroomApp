@@ -26,7 +26,7 @@ public class Course {
         for (Student student: students) {
             String name = student.getName();
             String fieldOfStudyAbb = student.getMajor();
-            double averageGrade = student.getAverageGrade();
+            double averageGrade = student.getFinalGrade(1);
 
             System.out.printf("The average grade for %s (%s) is: %.2f %n", name, fieldsOfStudy.get(fieldOfStudyAbb), averageGrade);
         }
@@ -38,7 +38,7 @@ public class Course {
 
         reportText.add(this.name +" ("+ this.id +")");
         for (Student student : this.students) {
-            reportText.add(student.getName() +": "+ String.format("%.2f", student.getAverageGrade()));
+            reportText.add(student.getName() +": "+ String.format("%.2f", student.getFinalGrade(1)));
         }
 
         try {

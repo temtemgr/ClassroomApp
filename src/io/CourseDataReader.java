@@ -1,6 +1,8 @@
 package io;
 
 import logic.Course;
+import logic.RegularStudent;
+import logic.RepeatingStudent;
 import logic.Student;
 
 import java.util.ArrayList;
@@ -28,16 +30,23 @@ public class CourseDataReader extends DataReader{
         for (String student: studentsText) {
             String[] parts = student.split(",");
 
-            if (parts.length < 3) {
+            if (parts.length < 4) {
                 System.out.println("Not enough grades found in this file.");
                 System.exit(1);
             }
 
             String name = parts[0];
             String fieldOfStudyAbb = parts[1].trim();
-            List<Double> grades = new ArrayList<>();
+            boolean repeatingStudent = parts[2].trim().equals("r");
+            double examGrade = Double.parseDouble(parts[3].trim());
 
-            for (int i = 2; i < parts.length; i++) {
+            if (repeatingStudent) {
+                students.add(new RepeatingStudent(name, fieldOfStudyAbb, examGrade));
+                continue;
+            }
+
+            List<Double> grades = new ArrayList<>();
+            for (int i = 4; i < parts.length; i++) {
                 double value;
 
                 try {
@@ -51,7 +60,7 @@ public class CourseDataReader extends DataReader{
                 grades.add(value);
             }
 
-            students.add(new Student(name, fieldOfStudyAbb, grades));
+            students.add(new RegularStudent(name, fieldOfStudyAbb, examGrade, grades));
         }
         return students;
     }
