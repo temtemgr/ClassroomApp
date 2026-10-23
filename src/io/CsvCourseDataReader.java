@@ -23,7 +23,7 @@ public class CsvCourseDataReader implements DataReader<Course> {
         }
 
         String[] courseArray = { text.get(0), text.get(1) };
-        List<Student> students = parseStudents(text);
+        List<Student> students = parseStudents(text.subList(2, text.size()));
         return new Course(courseArray[0].trim(), courseArray[1].trim(), students);
     }
 
