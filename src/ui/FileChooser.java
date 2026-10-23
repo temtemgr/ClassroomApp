@@ -1,9 +1,9 @@
-package io;
+package ui;
+
+import io.DataReadException;
 
 import java.awt.*;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 public final class FileChooser {
     public static Path selectFileWithExplorerDialog() throws DataReadException {
