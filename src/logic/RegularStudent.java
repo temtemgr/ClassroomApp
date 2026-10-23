@@ -15,6 +15,7 @@ public record RegularStudent(String name, String major, double examGrade, List<D
         double averagePreGrade;
         double gradeSum = 0;
         double lowestGrade = 6;
+        double gradeAmount = grades.size();
 
         // Finds lowest grade
         for (double grade : grades) {
@@ -23,15 +24,15 @@ public record RegularStudent(String name, String major, double examGrade, List<D
             }
         }
         if (grades.size() > 1) {
-            grades.remove(lowestGrade);
+            lowestGrade = 0;
+            gradeAmount += 1;
         }
 
         // Calculates average grade
         for (double grade : grades) {
             gradeSum += grade;
         }
-        double gradeAmount = grades.size();
-        averagePreGrade = gradeSum/gradeAmount;
+        averagePreGrade = (gradeSum-lowestGrade)/(gradeAmount-1);
 
         return ((averagePreGrade * preGradeFactor) + this.examGrade)/(1+preGradeFactor);
     }
