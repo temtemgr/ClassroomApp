@@ -1,19 +1,37 @@
 package io;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import logic.Course;
 
-public class MajorMapReader extends DataReader{
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
-    public MajorMapReader() {
-        super();
+public class MajorMapReader implements DataReader<Map<String,String>> {
+
+    @Override
+    public Map<String,String> readData(String path) {
+        List<String> text = new ArrayList<>();
+        File dataFile = new File(path);
+
+        // Scans file
+        try (Scanner scanner = new Scanner(dataFile)) {
+            while (scanner.hasNextLine()) {
+                text.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found - " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return this.parseFieldsOfStudy(text);
+
     }
 
-    public Map<String,String> createFieldsOfStudy() {
+    public Map<String,String> parseFieldsOfStudy(List<String> text) {
         Map<String,String> fieldsOfStudy = new HashMap<>();
 
-        for (String fieldOfStudy: dataText) {
+        for (String fieldOfStudy: text) {
             String[] parts = fieldOfStudy.split("\t", 2);
 
             if (parts.length != 2) {

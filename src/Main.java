@@ -1,25 +1,48 @@
-import io.CourseDataReader;
-import io.MajorMapReader;
+import io.*;
 import logic.Course;
 
-import java.awt.*;
+import javax.xml.crypto.Data;
 import java.util.*;
 
 class Main {
-
     public static void main(String[] args) {
         System.out.println("Select grades file:");
-        CourseDataReader courseDataReader = new CourseDataReader();
-        Course course = courseDataReader.createCourse();
+        Map<String,String> filePath = FileChooser.selectFileWithExplorerDialog();
+        String filePathStr = filePath.get("directory")+"/"+filePath.get("fileName");
 
-        System.out.printf("Select major-map file: %n %n");
-        Map<String,String> fieldsOfStudy = new MajorMapReader().createFieldsOfStudy();
+        if (filePath.get("fileName") == null) {
+            System.exit(0);
+        }
 
-        course.displayAverageGradesFromCourse(fieldsOfStudy);
+        try {
+            DataReader<Course> courseDataReader = getCourseDataReader(filePath.get("fileName"));
+            Course course = courseDataReader.readData(filePathStr);
 
-        course.addReport(courseDataReader.getDirPath());
-        System.out.printf("%nReport was created.%n");
+            System.out.printf("Select major-map file: %n %n");
 
+            Map<String,String> filePathMap = FileChooser.selectFileWithExplorerDialog();
+            String filePathMapStr = filePathMap.get("directory")+"/"+filePath.get("fileName");
+            Map<String,String> fieldsOfStudy = new MajorMapReader().readData(filePathMapStr);
+
+            course.displayAverageGradesFromCourse(fieldsOfStudy);
+
+            course.addReport(filePathStr);
+            System.out.printf("%nReport was created.%n");
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
         System.exit(0);
+    }
+
+    public static DataReader<Course> getCourseDataReader(String fileName) throws Exception {
+        if (fileName.endsWith(".csv")) {
+            return new CsvCourseDataReader();
+        }
+        if (fileName.endsWith(".txt")) {
+            return new CsvCourseDataReader();
+        }
+        throw new Exception("The selected file format is not supported");
     }
 }

@@ -5,26 +5,45 @@ import logic.RegularStudent;
 import logic.RepeatingStudent;
 import logic.Student;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
-public class CourseDataReader extends DataReader{
+public class CsvCourseDataReader implements DataReader<Course> {
 
-    public CourseDataReader() {
-        super();
+    @Override
+    public Course readData(String path) {
+        List<String> text = new ArrayList<>();
+        File dataFile = new File(path);
+
+        // Scans file
+        try (Scanner scanner = new Scanner(dataFile)) {
+            while (scanner.hasNextLine()) {
+                text.add(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found - " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return this.parseCourse(text);
+
     }
 
-    public Course createCourse() {
-        List<String> text = this.dataText;
+    public Course parseCourse(List<String> text) {
         String[] courseArray = { text.get(0), text.get(1) };
         text.removeFirst();
         text.removeFirst();
 
-        List<Student> students = createStudents(text);
+        List<Student> students = parseStudents(text);
         return new Course(courseArray[0].trim(), courseArray[1].trim(), students);
     }
 
-    private List<Student> createStudents(List<String> studentsText) {
+    private List<Student> parseStudents(List<String> studentsText) {
         List<Student> students = new ArrayList<>();
 
         for (String student: studentsText) {
