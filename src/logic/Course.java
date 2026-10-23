@@ -1,5 +1,7 @@
 package logic;
 
+import io.DataReadException;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,9 +34,8 @@ public class Course {
         }
     }
 
-    public void addReport(String dirPath) {
+    public void addReport(Path gradesFile) throws DataReadException {
         List<String> reportText = new ArrayList<>();
-        String filePath = dirPath + "/grades-report.txt";
 
         reportText.add(this.name +" ("+ this.id +")");
         for (Student student : this.students) {
@@ -42,9 +43,9 @@ public class Course {
         }
 
         try {
-            Files.write(Path.of(filePath), reportText, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(gradesFile.getParent(), reportText, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
-            System.out.println("An Error occurred: " + e.getMessage());
+            throw new DataReadException(e.getMessage());
         }
     }
 }

@@ -1,32 +1,25 @@
 import io.*;
 import logic.Course;
 
-import javax.xml.crypto.Data;
+import java.nio.file.Path;
 import java.util.*;
 
 class Main {
     public static void main(String[] args) {
-        System.out.println("Select grades file:");
-        Map<String,String> filePath = FileChooser.selectFileWithExplorerDialog();
-        String filePathStr = filePath.get("directory")+"/"+filePath.get("fileName");
-
-        if (filePath.get("fileName") == null) {
-            System.exit(0);
-        }
-
         try {
-            DataReader<Course> courseDataReader = getCourseDataReader(filePath.get("fileName"));
-            Course course = courseDataReader.readData(filePathStr);
+            System.out.println("Select grades file:");
+            Path gradesFile = FileChooser.selectFileWithExplorerDialog();
+
+            DataReader<Course> courseDataReader = getCourseDataReader(gradesFile);
+            Course course = courseDataReader.readData(gradesFile);
 
             System.out.printf("Select major-map file: %n %n");
-
-            Map<String,String> filePathMap = FileChooser.selectFileWithExplorerDialog();
-            String filePathMapStr = filePathMap.get("directory")+"/"+filePath.get("fileName");
-            Map<String,String> fieldsOfStudy = new MajorMapReader().readData(filePathMapStr);
+            Path mapFile = FileChooser.selectFileWithExplorerDialog();
+            Map<String,String> fieldsOfStudy = new MajorMapReader().readData(mapFile);
 
             course.displayAverageGradesFromCourse(fieldsOfStudy);
 
-            course.addReport(filePathStr);
+            course.addReport(gradesFile);
             System.out.printf("%nReport was created.%n");
         }
         catch (Exception e) {
@@ -36,13 +29,13 @@ class Main {
         System.exit(0);
     }
 
-    public static DataReader<Course> getCourseDataReader(String fileName) throws Exception {
-        if (fileName.endsWith(".csv")) {
+    public static DataReader<Course> getCourseDataReader(Path file) throws DataReadException {
+        if (file.getFileName().toString().endsWith(".csv")) {
             return new CsvCourseDataReader();
         }
-        if (fileName.endsWith(".txt")) {
+        if (file.getFileName().toString().endsWith(".txt")) {
             return new CsvCourseDataReader();
         }
-        throw new Exception("The selected file format is not supported");
+        throw new DataReadException("The selected file format is not supported");
     }
 }
