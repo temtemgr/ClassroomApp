@@ -5,59 +5,47 @@ import logic.RegularStudent;
 import logic.RepeatingStudent;
 import logic.Student;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class CsvCourseDataReader implements DataReader<Course> {
 
     @Override
-    public Course readData(String path) {
-        List<String> text = new ArrayList<>();
-        File dataFile = new File(path);
+    public Course readData(Path file) throws DataReadException {
 
-        // Scans file
-        try (Scanner scanner = new Scanner(dataFile)) {
-            while (scanner.hasNextLine()) {
-                text.add(scanner.nextLine());
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Error: File not found - " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+        List<String> text;
+        try {
+            text = Files.readAllLines(file);
+        } catch (IOException e) {
+            throw new DataReadException(e.getMessage());
         }
 
-        return this.parseCourse(text);
-
-    }
-
-    public Course parseCourse(List<String> text) {
         String[] courseArray = { text.get(0), text.get(1) };
-        text.removeFirst();
-        text.removeFirst();
-
         List<Student> students = parseStudents(text);
         return new Course(courseArray[0].trim(), courseArray[1].trim(), students);
     }
 
-    private List<Student> parseStudents(List<String> studentsText) {
+    private List<Student> parseStudents(List<String> studentsText) throws DataReadException {
         List<Student> students = new ArrayList<>();
 
         for (String student: studentsText) {
             String[] parts = student.split(",");
 
             if (parts.length < 4) {
-                System.out.println("Not enough grades found in this file.");
-                System.exit(1);
+                throw new DataReadException("Not enough grades found in this file.");
             }
 
             String name = parts[0];
             String fieldOfStudyAbb = parts[1].trim();
             boolean repeatingStudent = parts[2].trim().equals("r");
-            double examGrade = Double.parseDouble(parts[3].trim());
+            double examGrade;
+            try {
+                examGrade = Double.parseDouble(parts[3].trim());
+            } catch (NumberFormatException e) {
+                throw new DataReadException("The exam grade is not a number - " + e.getMessage());
+            }
 
             if (repeatingStudent) {
                 students.add(new RepeatingStudent(name, fieldOfStudyAbb, examGrade));
@@ -72,9 +60,7 @@ public class CsvCourseDataReader implements DataReader<Course> {
                     value = Double.parseDouble(parts[i]);
                 }
                 catch (NumberFormatException e) {
-                    System.out.printf("Error: A grade is not a number - %s", e.getMessage());
-                    System.exit(1);
-                    break;
+                    throw new DataReadException("A grade is not a number - " + e.getMessage());
                 }
                 grades.add(value);
             }

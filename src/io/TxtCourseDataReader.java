@@ -2,12 +2,12 @@ package io;
 
 import logic.Course;
 
-import java.util.List;
+import java.nio.file.*;
 
 public class TxtCourseDataReader implements DataReader<Course> {
 
     @Override
-    public Course readData(String path) {
+    public Course readData(Path file) throws DataReadException {
         return null;
     }
 }
