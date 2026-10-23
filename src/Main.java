@@ -35,7 +35,7 @@ class Main {
             return new CsvCourseDataReader();
         }
         if (file.getFileName().toString().endsWith(".txt")) {
-            return new CsvCourseDataReader();
+            return new TxtCourseDataReader();
         }
         throw new DataReadException("The selected file format is not supported");
     }
