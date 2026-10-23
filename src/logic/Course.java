@@ -34,7 +34,7 @@ public record Course(String id, String name, List<Student> students) {
         }
 
         try {
-            Files.write(gradesFile.getParent(), reportText, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            Files.write(gradesFile.resolveSibling("grades-report.txt"), reportText, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new DataReadException(e.getMessage());
         }

@@ -11,7 +11,7 @@ public final class FileChooser {
         FileDialog dialog = new FileDialog((Frame) null, "Open File");
         dialog.setVisible(true);
 
-        if (dialog.getFile().isEmpty()) {
+        if (dialog.getFile() == null) {
             throw new DataReadException("No file selected");
         }
 
