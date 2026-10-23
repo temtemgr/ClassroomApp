@@ -1,27 +1,10 @@
 package logic;
 
-import java.util.List;
+// sealed -> can only be interface from the defined permitted classes + they must be final / sealed / non-sealed
 
-public class Student {
-    private String name;
-    private String major;
-    protected double examGrade;
-
-    public Student(String name,String fieldOfStudyAbb, double examGrade) {
-        this.name = name;
-        this.major = fieldOfStudyAbb;
-        this.examGrade = examGrade;
-    }
-
-    public String getName(){
-        return this.name;
-    }
-
-    public String getMajor(){
-        return this.major;
-    }
-
-    public double getFinalGrade(double preGradeFactor) {
-        return 0;
-    }
+public abstract sealed interface Student permits RegularStudent, RepeatingStudent {
+    String name();
+    String major();
+    double examGrade();
+    double finalGrade(double preGradeFactor);
 }

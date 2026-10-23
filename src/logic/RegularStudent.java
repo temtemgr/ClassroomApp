@@ -2,19 +2,17 @@ package logic;
 
 import java.util.List;
 
-public class RegularStudent extends Student{
-    private List<Double> preGrades;
-    private double averagePreGrade;
+public record RegularStudent(String name, String major, double examGrade, List<Double> preGrades) implements Student{
 
-    public RegularStudent(String name, String fieldOfStudyAbb, double examGrade, List<Double> grades) {
-        super(name, fieldOfStudyAbb, examGrade);
-        this.preGrades = grades;
-        this.setAveragePreGrade();
+    public RegularStudent {
+        preGrades = List.copyOf(preGrades);
     }
 
-    private void setAveragePreGrade() {
+    @Override
+    public double finalGrade(double preGradeFactor) {
+
         List<Double> grades = this.preGrades;
-        double averageGrade;
+        double averagePreGrade;
         double gradeSum = 0;
         double lowestGrade = 6;
 
@@ -33,14 +31,8 @@ public class RegularStudent extends Student{
             gradeSum += grade;
         }
         double gradeAmount = grades.size();
-        averageGrade = gradeSum/gradeAmount;
+        averagePreGrade = gradeSum/gradeAmount;
 
-        // Sets averageGrade
-        this.averagePreGrade = averageGrade;
-    }
-
-    @Override
-    public double getFinalGrade(double preGradeFactor) {
-        return ((this.averagePreGrade * preGradeFactor) + this.examGrade)/(1+preGradeFactor);
+        return ((averagePreGrade * preGradeFactor) + this.examGrade)/(1+preGradeFactor);
     }
 }

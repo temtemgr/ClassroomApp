@@ -1,12 +1,9 @@
 package logic;
 
-public class RepeatingStudent extends Student{
-    public RepeatingStudent(String name, String fieldOfStudyAbb,double examGrade) {
-        super(name, fieldOfStudyAbb, examGrade);
-    }
+public record RepeatingStudent(String name, String major,double examGrade) implements Student {
 
     @Override
-    public double getFinalGrade(double preGradeFactor) {
-        return this.examGrade;
+    public double finalGrade(double preGradeFactor) {
+        return examGrade;
     }
 }

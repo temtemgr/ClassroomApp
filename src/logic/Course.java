@@ -11,24 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Course {
-    private String id;
-    private String name;
-    private List<Student> students;
-
-    public Course(String id, String name, List<Student> students) {
-        this.id = id;
-        this.name = name;
-        this.students = students;
-    }
+public record Course(String id, String name, List<Student> students) {
 
     public void displayAverageGradesFromCourse(Map<String,String>  fieldsOfStudy) {
         System.out.printf("%s %n%s %n %n", id, name); // id -> new line -> name -> 2x new line
 
         for (Student student: students) {
-            String name = student.getName();
-            String fieldOfStudyAbb = student.getMajor();
-            double averageGrade = student.getFinalGrade(1);
+            String name = student.name();
+            String fieldOfStudyAbb = student.major();
+            double averageGrade = student.finalGrade(1);
 
             System.out.printf("The average grade for %s (%s) is: %.2f %n", name, fieldsOfStudy.get(fieldOfStudyAbb), averageGrade);
         }
@@ -39,7 +30,7 @@ public class Course {
 
         reportText.add(this.name +" ("+ this.id +")");
         for (Student student : this.students) {
-            reportText.add(student.getName() +": "+ String.format("%.2f", student.getFinalGrade(1)));
+            reportText.add(student.name() +": "+ String.format("%.2f", student.finalGrade(1)));
         }
 
         try {
