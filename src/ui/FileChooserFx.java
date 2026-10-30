@@ -1,0 +1,28 @@
+package ui;
+
+import io.DataReadException;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+
+import java.io.File;
+import java.nio.file.Path;
+
+public final class FileChooserFx {
+    public static Path selectFileWithExplorerDialog(String title, Stage mainStage) throws DataReadException {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(title);
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Text Files", "*.txt"),
+                new ExtensionFilter("CSV Files", "*.csv")
+            );
+
+        File selectedFile = fileChooser.showOpenDialog(mainStage);
+        if (selectedFile == null) {
+            throw new DataReadException("No file selected");
+        }
+
+        return selectedFile.toPath();
+    }
+}
