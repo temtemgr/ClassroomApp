@@ -1,6 +1,6 @@
 import io.*;
 import logic.Course;
-import ui.FileChooser;
+import ui.FileChooserAwt;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -9,13 +9,13 @@ class Main {
     public static void main(String[] args) {
         try {
             System.out.println("Select grades file:");
-            Path gradesFile = FileChooser.selectFileWithExplorerDialog();
+            Path gradesFile = FileChooserAwt.selectFileWithExplorerDialog();
 
             DataReader<Course> courseDataReader = getCourseDataReader(gradesFile);
             Course course = courseDataReader.readData(gradesFile);
 
             System.out.printf("Select major-map file: %n %n");
-            Path mapFile = FileChooser.selectFileWithExplorerDialog();
+            Path mapFile = FileChooserAwt.selectFileWithExplorerDialog();
             Map<String,String> fieldsOfStudy = new MajorMapReader().readData(mapFile);
 
             course.displayAverageGradesFromCourse(fieldsOfStudy);
