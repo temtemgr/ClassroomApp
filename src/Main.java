@@ -11,7 +11,7 @@ class Main {
             System.out.println("Select grades file:");
             Path gradesFile = FileChooserAwt.selectFileWithExplorerDialog();
 
-            DataReader<Course> courseDataReader = getCourseDataReader(gradesFile);
+            DataReader<Course> courseDataReader = CourseDataReaderFactory.create(gradesFile);
             Course course = courseDataReader.readData(gradesFile);
 
             System.out.printf("Select major-map file: %n %n");
