@@ -13,16 +13,17 @@ public final class FileChooserFx {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Text Files", "*.txt"),
-                new ExtensionFilter("CSV Files", "*.csv")
+                new ExtensionFilter("CSV Files", "*.csv"),
+                new ExtensionFilter("All Files", "*.*")
             );
 
         File selectedFile = fileChooser.showOpenDialog(mainStage);
         if (selectedFile == null) {
             throw new DataReadException("No file selected");
         }
-
         return selectedFile.toPath();
     }
 }
