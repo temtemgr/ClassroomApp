@@ -1,44 +1,60 @@
 package ui;
 
+import io.CourseDataReaderFactory;
+import io.DataReader;
 import javafx.geometry.Insets;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.*;
 import logic.Course;
 
+import java.nio.file.Path;
 import java.util.Map;
 
 public class MainPane extends StackPane {
-
-    public Course course;
-    public Map<String, String> majorMap;
-    public double preGradeFactor;
-    private TextArea studentList;
-    private Label gradeFactorValue;
+    private double preGradeFactor = 1;
+    private Course course;
 
     public MainPane(Map<String, String> majorMap, Course course) {
-        this.majorMap = majorMap;
         this.course = course;
-        this.preGradeFactor = 1;
 
-        Button refreshTextBtn = new Button("Update");
-        refreshTextBtn.setOnAction(event -> {
-            this.studentList.setText(course.toString(majorMap, this.preGradeFactor));
-        });
-
-        this.studentList = new TextArea(course.toString(majorMap, preGradeFactor));
+        // Textarea
+        TextArea studentList = new TextArea(course.toString(majorMap, preGradeFactor));
         VBox.setVgrow(studentList, Priority.ALWAYS);
         VBox.setMargin(studentList, new Insets(0, 0, 15, 0));
         studentList.setEditable(false);
 
+        // Button
+        Button refreshTextBtn = new Button("Update");
+        refreshTextBtn.setOnAction(_ ->
+                studentList.setText(this.course.toString(majorMap, preGradeFactor))
+        );
+        Button selectNewFileBtn = new Button("new File");
+        selectNewFileBtn.setOnAction(_ -> {
+            try {
+                Path gradesFile = FileChooserFx.selectFileWithExplorerDialog("Select the grades-file", getScene().getWindow());
+
+                DataReader<Course> courseDataReader = CourseDataReaderFactory.create(gradesFile);
+                this.course = courseDataReader.readData(gradesFile);
+            } catch (Exception e) {
+                Alert message = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                message.showAndWait();
+                return;
+            }
+            studentList.setText(course.toString(majorMap, preGradeFactor));
+        });
+
+        // Labels
         Label gradeFactorText = new Label("Set the weight for the pregrades:");
-        this.gradeFactorValue = new Label(preGradeFactorInPercent());
-        Slider gradeFactorSlider = new Slider(0,1,1);
-        gradeFactorSlider.valueProperty().addListener((obs, oldValue, newValue) -> {
-            this.preGradeFactor =  newValue.doubleValue();
-            this.gradeFactorValue.setText(preGradeFactorInPercent());
+        Label gradeFactorValue = new Label(preGradeFactorInPercent());
+
+        // Slider
+        Slider gradeFactorSlider = new Slider(0, 1, 1);
+        gradeFactorSlider.valueProperty().addListener((_, _, newValue) -> {
+            preGradeFactor = newValue.doubleValue();
+            gradeFactorValue.setText(preGradeFactorInPercent());
         });
 
         HBox hb = new HBox();
@@ -54,6 +70,6 @@ public class MainPane extends StackPane {
     }
 
     private String preGradeFactorInPercent() {
-        return String.format("%.1f %%", this.preGradeFactor*100.0);
+        return String.format("%.1f %%", preGradeFactor * 100.0);
     }
 }
