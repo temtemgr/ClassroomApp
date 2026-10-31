@@ -2,7 +2,6 @@ package logic;
 
 import io.DataReadException;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -51,5 +50,9 @@ public record Course(String id, String name, List<Student> students) {
         } catch (IOException e) {
             throw new DataReadException(e.getMessage());
         }
+    }
+
+    public int getNumOfStudents() {
+        return students.size();
     }
 }
