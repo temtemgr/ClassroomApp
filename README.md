@@ -1,8 +1,8 @@
 # ClassroomApp
 
-Use following format for the .txt files with the App:
+Use following format for the files with the App:
 
-## grades.txt
+## grades.csv
 B-LS-MI 007 \
 Programmieren II \
 Joe Cool,mt,,5,4.5,3,5.2,4 \
@@ -13,6 +13,24 @@ Anna Calvi,mt,,5.5,5.1,4.9,4.8,5,5,5 \
 John Cale,mi,,3.8,4.6,6,3.9,4.2,4.9,5 \
 Joost Swarte,pt,,4.9,3,3.5,3.6,4,3.1 \
 Hans Müller,mi,r,4.5
+
+## grades.txt
+course-id: B-LS-MI 007 \
+course-name: Programmieren II \
+name: Ernst Meier \
+major: mi \
+is_repeating: false \
+exam-grade: 3.5 \
+pre-grade: 4.3, 5.1, 2.3 \
+name: Anna Schwarz \
+major: mi \
+is_repeating: true \
+exam-grade: 3.5 \
+name: Livia Sommer \
+major: mt \
+is_repeating: false \
+exam-grade: 5.5 \
+pre-grade: 4.8, 5.9, 4.9, 5.6, 5 \
 
 ## major-map.txt
 bz	Bioanalytics \
