@@ -18,6 +18,7 @@ public class MainPane extends StackPane {
     private Course course;
     private final Map<String, String> majorMap;
     private final TextArea studentList;
+    private final Label numOfStudents;
 
     public MainPane(Map<String, String> majorMap, Course initialCourse) {
         this.course = initialCourse;
@@ -33,6 +34,7 @@ public class MainPane extends StackPane {
         Button selectNewFileBtn = createSelectNewFileBtn();
 
         // Labels
+        this.numOfStudents = new Label("Number of Students: " + this.course.getNumOfStudents());
         Label gradeFactorText = new Label("Set the weight for the pregrades:");
         Label gradeFactorValue = new Label(preGradeFactorInPercent());
 
@@ -49,7 +51,7 @@ public class MainPane extends StackPane {
         VBox vb = new VBox();
 
         hb.getChildren().addAll(gradeFactorText, gradeFactorSlider, gradeFactorValue);
-        vb.getChildren().addAll(this.studentList, hb, selectNewFileBtn);
+        vb.getChildren().addAll(numOfStudents, this.studentList, hb, selectNewFileBtn);
         vb.setMaxHeight(200);
         vb.setMaxWidth(400);
 
@@ -70,6 +72,7 @@ public class MainPane extends StackPane {
                 return;
             }
             refreshText();
+            this.numOfStudents.setText("Number of Students: " + this.course.getNumOfStudents());
         });
         return selectNewFileBtn;
     }
