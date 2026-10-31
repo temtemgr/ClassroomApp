@@ -3,13 +3,13 @@ package ui;
 import io.DataReadException;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.File;
 import java.nio.file.Path;
 
 public final class FileChooserFx {
-    public static Path selectFileWithExplorerDialog(String title, Stage mainStage) throws DataReadException {
+    public static Path selectFileWithExplorerDialog(String title, Window owner) throws DataReadException {
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
@@ -20,7 +20,7 @@ public final class FileChooserFx {
                 new ExtensionFilter("All Files", "*.*")
             );
 
-        File selectedFile = fileChooser.showOpenDialog(mainStage);
+        File selectedFile = fileChooser.showOpenDialog(owner);
         if (selectedFile == null) {
             throw new DataReadException("No file selected");
         }
