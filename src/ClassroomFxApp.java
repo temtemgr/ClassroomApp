@@ -41,7 +41,7 @@ public class ClassroomFxApp extends Application {
         }
 
         stage.setTitle("ClassroomApp");
-        stage.setScene(new Scene(new MainPane(fieldsOfStudy, course), 600, 350));
+        stage.setScene(new Scene(new MainPane(fieldsOfStudy, course), 700, 350));
         stage.show();
     }
 

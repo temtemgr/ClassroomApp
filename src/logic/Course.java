@@ -24,15 +24,14 @@ public record Course(String id, String name, List<Student> students) {
         }
     }
 
-    public String toString(Map<String,String>  fieldsOfStudy, double preGradeFactor) {
+    public String toString(double preGradeFactor) {
         StringBuilder text = new StringBuilder(String.format("%s %s %n", id, name));
 
         for (Student student: students) {
             String name = student.name();
-            String fieldOfStudyAbb = student.major();
             double averageGrade = student.finalGrade(preGradeFactor);
 
-            text.append(String.format("The average grade for %s (%s) is: %.2f %n", name, fieldsOfStudy.get(fieldOfStudyAbb), averageGrade));
+            text.append(String.format("%s: %.2f %n", name, averageGrade));
         }
         return text.toString();
     }
