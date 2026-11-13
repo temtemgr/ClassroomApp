@@ -24,18 +24,6 @@ public record Course(String id, String name, List<Student> students) {
         }
     }
 
-    public String toString(double preGradeFactor) {
-        StringBuilder text = new StringBuilder(String.format("%s %s %n", id, name));
-
-        for (Student student: students) {
-            String name = student.name();
-            double averageGrade = student.finalGrade(preGradeFactor);
-
-            text.append(String.format("%s: %.2f %n", name, averageGrade));
-        }
-        return text.toString();
-    }
-
     public void addReport(Path gradesFile) throws DataReadException {
         List<String> reportText = new ArrayList<>();
 
