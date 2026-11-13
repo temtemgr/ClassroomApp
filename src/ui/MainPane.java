@@ -10,8 +10,10 @@ import java.util.Map;
 public class MainPane extends StackPane {
 
     public MainPane(Map<String, String> majorMap, Course initialCourse) {
-        GraphicsPane graphicsPane = new GraphicsPane(initialCourse.students());
-        ControlPane controlPane = new ControlPane(majorMap, initialCourse, graphicsPane);
+        StateModel stateModel = new StateModel(initialCourse);
+
+        ControlPane controlPane = new ControlPane(stateModel);
+        GraphicsPane graphicsPane = new GraphicsPane(stateModel);
 
         final SplitPane verticalSplitPane = new SplitPane();
         verticalSplitPane.setOrientation(Orientation.HORIZONTAL);
